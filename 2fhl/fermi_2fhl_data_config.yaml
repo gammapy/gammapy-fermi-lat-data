@@ -1,0 +1,9 @@
+# Fermi dataset entry file
+# The file has to be kept in sync with fermi_2fhl_data_prepare.sh
+filenames:
+  events    : fermi_2fhl_events.fits.gz
+  exposure  : fermi_2fhl_exposure_cube_hpx.fits.gz
+  psf       : fermi_2fhl_psf_gc.fits.gz
+  livetime  : fermi_2fhl_livetime_cube.fits.gz
+  counts    : fermi_2fhl_counts_cube_hpx.fits.gz
+  isodiff   : ../isodiff/iso_P8R2_SOURCE_V6_v06.txt
