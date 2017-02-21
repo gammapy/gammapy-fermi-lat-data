@@ -1,5 +1,7 @@
 # Fermi dataset entry file
 # The file has to be kept in sync with fermi_2fhl_data_prepare.sh
+name : 2FHL
+
 filenames:
   events    : fermi_2fhl_events.fits.gz
   exposure  : fermi_2fhl_exposure_cube_hpx.fits.gz

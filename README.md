@@ -47,30 +47,9 @@ export FERMI_DIFFUSE_DIR=path/to/fermi/diffuse/dir
 
 ## Work with the data
 Once you've copied the data and defined the environment variables to point to the
-corresponding directories, the data is ready to be accessed using
-the [FermiLATDataset](http://docs.gammapy.org/en/latest/api/gammapy.datasets.FermiLATDataset.html#gammapy.datasets.FermiLATDataset)
-class from gammapy. Here is a basic example how to compute sky images for the
-galactic center region using the 2FHL dataset:
-
-
-```python
-
-from astropy import unit as u
-from gammapy.image import SkyImage, FermiLATBasicImageEstimator
-from gammapy.datasets import FermiLATDataset
-
-kwargs = {}
-kwargs['reference'] = SkyImage.empty(nxpix=201, nypix=101, binsz=0.05)
-kwargs['emin'] = 50 * u.GeV
-kwargs['emax'] = 2000 * u.GeV
-image_estimator = FermiLATBasicImageEstimator(**kwargs)
-
-filename = '$GAMMAPY_FERMI_LAT_DATA/2fhl/fermi_2fhl_data_config.yaml'
-dataset = FermiLATDataset(filename)
-
-result = image_estimator.run(dataset)
-result['counts'].show()
-```
+corresponding directories, the data is ready to be used. Please check the examples
+provided in the docstring  of the [FermiLATDataset](http://docs.gammapy.org/en/latest/api/gammapy.datasets.FermiLATDataset.html#gammapy.datasets.FermiLATDataset)
+class from Gammapy or check out the tutorial [Fermi-LAT data with Gammapy](https://github.com/gammapy/gammapy-extra/blob/master/notebooks/data_fermi_lat.ipynb).
 
 ## Data preparation for contributors
 Every dataset includes a data preparation bash script, which runs the [Fermi-LAT
