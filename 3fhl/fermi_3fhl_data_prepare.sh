@@ -11,8 +11,8 @@ EBINALG=LOG
 NEBINS=17
 
 # Time cuts taken from 3FHL paper
-TMIN=239557417
-TMAX=460250000
+TMIN=239557417.
+TMAX=460250000.
 
 # Raw data files
 EVENTS_LIST=$FERMI_FT1_FILE # Fermi FT1 file environment variable
@@ -26,17 +26,17 @@ EXPOSURE=fermi_3fhl_exposure_cube_hpx.fits
 COUNTS=fermi_3fhl_counts_cube_hpx.fits
 PSF=fermi_3fhl_psf_gc.fits
 
-# Merge weekly photon files and apply energy cut
-gtselect infile=$EVENTS_LIST outfile=$EVENTS_SELECTED ra=0 dec=0 rad=180 \
-         tmin=$TMIN tmax=$TMAX emin=$EMIN emax=$EMAX zmax=$ZMAX \
-         evclass=$EVENT_CLASS evtype=$EVENT_TYPE
+## Merge weekly photon files and apply energy cut
+#gtselect infile=$EVENTS_LIST outfile=$EVENTS_SELECTED ra=0 dec=0 rad=180 \
+#         tmin=$TMIN tmax=$TMAX emin=$EMIN emax=$EMAX zmax=$ZMAX \
+#         evclass=$EVENT_CLASS evtype=$EVENT_TYPE
 
-# Update GTI list
-gtmktime scfile=$SPACECRAFT filter="(DATA_QUAL>0)&&(LAT_CONFIG==1)" \
-         roicut=no evfile=$EVENTS_SELECTED outfile=$EVENTS
+## Update GTI list
+#gtmktime scfile=$SPACECRAFT filter="(DATA_QUAL>0)&&(LAT_CONFIG==1)" \
+#         roicut=no evfile=$EVENTS_SELECTED outfile=$EVENTS
 
 # Compute livetime cube
-gtltcube zmax=$ZMAX evfile=$EVENTS_SELECTED_GTI scfile=$SPACECRAFT \
+gtltcube zmax=$ZMAX evfile=$EVENTS scfile=$SPACECRAFT \
          outfile=$LIVETIME dcostheta=0.025 binsz=1
 
 # Counts cube

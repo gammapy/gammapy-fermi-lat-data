@@ -35,9 +35,9 @@ PSF=fermi_2fhl_psf_gc.fits
 # gtmktime scfile=$SPACECRAFT filter="(DATA_QUAL>0)&&(LAT_CONFIG==1)" \
 #          roicut=no evfile=$EVENTS_SELECTED outfile=$EVENTS
 
-# # # Compute livetime cube
-# # gtltcube zmax=$ZMAX evfile=$EVENTS_SELECTED_GTI scfile=$SPACECRAFT \
-# #          outfile=$LIVETIME dcostheta=0.025 binsz=1
+# Compute livetime cube
+gtltcube zmax=$ZMAX evfile=$EVENTS scfile=$SPACECRAFT \
+         outfile=$LIVETIME dcostheta=0.025 binsz=1
 
 # Counts cube
 gtbin evfile=$EVENTS outfile=$COUNTS algorithm=HEALPIX SCFILE=$SPACECRAFT \

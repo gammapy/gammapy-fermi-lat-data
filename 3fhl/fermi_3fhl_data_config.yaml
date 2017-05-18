@@ -9,3 +9,4 @@ filenames:
   livetime  : fermi_3fhl_livetime_cube.fits.gz
   counts    : fermi_3fhl_counts_cube_hpx.fits.gz
   isodiff   : ../isodiff/iso_P8R2_SOURCE_V6_v06.txt
+  bkg_norm  : bkg_norm/bkg_norm_image_hpx.fits.gz

@@ -45,4 +45,4 @@ data[~np.isfinite(data)] = np.nanmean(data)
 if SMOOTH:
   data = hp.smoothing(map_in=data, sigma= Angle('5deg').rad)
 
-hp.write_map('bkg_corr_3fhl.fits', m=data, nest=NEST, coord='G')
+hp.write_map('background_norm_hpx.fits', m=data, nest=NEST, coord='G')
