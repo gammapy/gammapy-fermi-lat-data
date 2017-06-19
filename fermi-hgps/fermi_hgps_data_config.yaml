@@ -1,9 +1,9 @@
 # Fermi dataset entry file
 # The file has to be kept in sync with fermi_hgps_data_prepare.sh
 filenames:
-  events    : fermi_10_3000_GeV_events.fits.gz
-  exposure  : fermi_10_3000_GeV_exposure_cube.fits.gz
-  psf       : fermi_10_3000_GeV_psf_gc.fits.gz
-  livetime  : fermi_10_3000_GeV_livetime_cube.fits.gz
-  counts    : fermi_10_3000_GeV_counts_cube.fits.gz
+  events    : fermi_hgps_events.fits.gz
+  exposure  : fermi_hgps_exposure_hpx.fits.gz
+  psf       : fermi_hgps_psf_gc.fits.gz
+  livetime  : fermi_hgps_livetime.fits.gz
+  counts    : fermi_hgps_counts_hpx.fits.gz
   isodiff   : ../isodiff/iso_P8R2_SOURCE_V6_v06.txt
