@@ -1,5 +1,7 @@
 # Fermi dataset entry file
 # The file has to be kept in sync with fermi_hgps_data_prepare.sh
+name : Fermi-HGPS
+
 filenames:
   events    : fermi_hgps_events.fits.gz
   exposure  : fermi_hgps_exposure_hpx.fits.gz
