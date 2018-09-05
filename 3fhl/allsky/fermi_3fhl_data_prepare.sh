@@ -36,12 +36,12 @@ PSF=fermi_3fhl_psf_gc.fits
 #         roicut=no evfile=$EVENTS_SELECTED outfile=$EVENTS
 
 # Compute livetime cube
-gtltcube zmax=$ZMAX evfile=$EVENTS scfile=$SPACECRAFT \
-         outfile=$LIVETIME dcostheta=0.025 binsz=1
+# gtltcube zmax=$ZMAX evfile=$EVENTS scfile=$SPACECRAFT \
+#          outfile=$LIVETIME dcostheta=0.025 binsz=1
 
 # Counts cube
 gtbin evfile=$EVENTS outfile=$COUNTS algorithm=HEALPIX SCFILE=$SPACECRAFT \
-      coordsys=GAL hpx_ordering_scheme=RING hpx_order=5 hpx_ebin=true ebinalg=LOG \
+      coordsys=CEL hpx_ordering_scheme=RING hpx_order=6 hpx_ebin=true ebinalg=LOG \
       emin=$EMIN emax=$EMAX enumbins=$NEBINS
 
 # Compute exposure cube
@@ -49,8 +49,8 @@ gtexpcube2 infile=$LIVETIME outfile=$EXPOSURE irf=$IRF cmap=$COUNTS \
         ebinalg=$EBINALG emin=$EMIN emax=$EMAX enumbins=$NEBINS bincalc=EDGE
 
 # Compute psf cube
-gtpsf expcube=$LIVETIME outfile=$PSF irfs=$IRF ra=266.42 dec=-29.01 \
-emin=$EMIN emax=$EMAX nenergies=$NEBINS thetamax=10 ntheta=300
+# gtpsf expcube=$LIVETIME outfile=$PSF irfs=$IRF ra=266.42 dec=-29.01 \
+# emin=$EMIN emax=$EMAX nenergies=$NEBINS thetamax=10 ntheta=300
 
 # Zip files
 # gzip $EVENTS_SELECTED_GTI
