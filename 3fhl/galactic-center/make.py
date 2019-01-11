@@ -6,13 +6,14 @@ from gammapy.maps import Map
 from gammapy.spectrum.models import PowerLaw
 from gammapy.irf import EnergyDependentTablePSF
 from gammapy.cube import PSFKernel
+from gammapy.data import EventList
 
 
 log = logging.getLogger(__name__)
 
 
 def make_gll_cutout():
-    filename = '$FERMI_DIFFUSE_DIR/gll_iem_v06.fits'
+    filename = '$FERMI_DIFFUSE_DIR/gll_iem_v06.fits.gz'
 
     log.info('Reading {}'.format(filename))
     diffuse_allsky = Map.read(filename)
@@ -20,22 +21,22 @@ def make_gll_cutout():
     position = SkyCoord(0, 0, frame='galactic', unit='deg')
     diffuse_gc = diffuse_allsky.cutout(position=position, width=(21, 11))
 
-    filename = 'gll_iem_v06_gc.fits.gz'
+    filename = 'gll_iem_v06_gc.fits.gz.gz'
     log.info('Writing {}'.format(filename))
     diffuse_gc.write(filename, conv='fgst-template', overwrite=True)
 
 
 def make_images():
-    counts_cube =  Map.read("fermi-3fhl-gc-counts-cube.fits")
+    counts_cube =  Map.read("fermi-3fhl-gc-counts-cube.fits.gz")
     counts = counts_cube.sum_over_axes()
-    counts.write("fermi-3fhl-gc-counts.fits", overwrite=True)
+    counts.write("fermi-3fhl-gc-counts.fits.gz", overwrite=True)
 
-    background_cube = Map.read("fermi-3fhl-gc-background-cube.fits")
+    background_cube = Map.read("fermi-3fhl-gc-background-cube.fits.gz")
     background = background_cube.sum_over_axes()
-    background.write("fermi-3fhl-gc-background.fits", overwrite=True)
+    background.write("fermi-3fhl-gc-background.fits.gz", overwrite=True)
 
 
-    exposure_cube = Map.read("fermi-3fhl-gc-exposure-cube.fits")
+    exposure_cube = Map.read("fermi-3fhl-gc-exposure-cube.fits.gz")
 
     # define a weighting spectrum
     spectrum = PowerLaw(index=2)
@@ -48,18 +49,27 @@ def make_images():
     # compute weighted exposure map
     exposure_cube.data *= weights[:, np.newaxis, np.newaxis].value
     exposure = exposure_cube.sum_over_axes()
-    exposure.write("fermi-3fhl-gc-exposure.fits", overwrite=True)
+    exposure.write("fermi-3fhl-gc-exposure.fits.gz", overwrite=True)
 
 
     # load psf
-    table_psf = EnergyDependentTablePSF.read("fermi-3fhl-gc-psf-cube.fits")
+    table_psf = EnergyDependentTablePSF.read("fermi-3fhl-gc-psf-cube.fits.gz")
 
     # compute mean PSF in given energy band
     table_psf_mean = table_psf.table_psf_in_energy_band([10, 500] * u.GeV, spectrum=spectrum)
 
     # compute PSF kernel
     kernel = PSFKernel.from_table_psf(table_psf=table_psf_mean, geom=exposure.geom, max_radius=0.5 * u.deg)
-    kernel.write("fermi-3fhl-gc-psf.fits", overwrite=True)
+    kernel.write("fermi-3fhl-gc-psf.fits.gz", overwrite=True)
+
+    # events
+    events = EventList.read("../allsky/fermi_3fhl_events_selected.fits.gz")
+    
+    selection = counts.geom.contains(events.radec)
+    table = events.table[selection]
+
+    table.write("fermi-3fhl-gc-events.fits.gz", overwrite=True)
+
 
 
 if __name__ == "__main__":
