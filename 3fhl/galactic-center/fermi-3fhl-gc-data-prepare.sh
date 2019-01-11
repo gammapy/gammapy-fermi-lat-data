@@ -22,24 +22,24 @@ SPACECRAFT=$FERMI_FT2_FILE # Fermi FT2 file environment variable
 EVENTS=../allsky/fermi_3fhl_events.fits
 LIVETIME=../allsky/fermi_3fhl_livetime.fits
 EVENTS_SELECTED=fermi-3fhl-gc-events-selected.fits
-EXPOSURE=fermi-3fhl-gc-exposure.fits
-COUNTS=fermi-3fhl-gc-counts.fits
-PSF=fermi-3fhl-psf-gc.fits
-BACKGROUND_ALL=fermi-3fhl-gc-background-all.fits
-BACKGROUND_ISO=fermi-3fhl-gc-background-iso.fits
-BACKGROUND_GAL=fermi-3fhl-gc-background-gal.fits
+EXPOSURE=fermi-3fhl-gc-exposure-cube.fits
+COUNTS=fermi-3fhl-gc-counts-cube.fits
+PSF=fermi-3fhl-gc-psf-cube.fits
+BACKGROUND_ALL=fermi-3fhl-gc-background-cube.fits
+BACKGROUND_ISO=fermi-3fhl-gc-background-cube-iso.fits
+BACKGROUND_GAL=fermi-3fhl-gc-background-cube-gal.fits
 BKG_MODEL_ALL=background-model-all.xml
 BKG_MODEL_GAL=background-model-gal.xml
 BGK_MODEL_ISO=background-model-iso.xml
 
 # # Counts cube
 gtbin evfile=$EVENTS outfile=$COUNTS algorithm=CCUBE SCFILE=$SPACECRAFT \
-      coordsys=GAL binsz=0.05 nxpix=200 nypix=100 xref=0 yref=0 proj=CAR ebinalg=LOG \
+      coordsys=GAL binsz=0.05 nxpix=400 nypix=200 xref=0 yref=0 proj=CAR ebinalg=LOG \
       emin=$EMIN emax=$EMAX enumbins=$NEBINS axisrot=0
 
 # Compute exposure cube
 gtexpcube2 infile=$LIVETIME outfile=$EXPOSURE irf=$IRF coordsys=GAL binsz=0.05 \
-      nxpix=200 nypix=100 xref=0 yref=0 proj=CAR ebinalg=$EBINALG cmap=none \
+      nxpix=400 nypix=200 xref=0 yref=0 proj=CAR ebinalg=$EBINALG cmap=none \
       emin=$EMIN emax=$EMAX enumbins=$NEBINS axisrot=0 bincalc=EDGE
 
 # Compute psf cube
