@@ -2,6 +2,8 @@ import logging
 import numpy as np
 from astropy import units as u
 from astropy.coordinates import SkyCoord
+from astropy.table import Table
+from astropy.io import fits
 from gammapy.maps import Map
 from gammapy.spectrum.models import PowerLaw
 from gammapy.irf import EnergyDependentTablePSF
@@ -13,28 +15,27 @@ log = logging.getLogger(__name__)
 
 
 def make_gll_cutout():
-    filename = '$FERMI_DIFFUSE_DIR/gll_iem_v06.fits.gz'
+    filename = '$FERMI_DIFFUSE_DIR/gll_iem_v06.fits'
 
     log.info('Reading {}'.format(filename))
     diffuse_allsky = Map.read(filename)
 
     position = SkyCoord(0, 0, frame='galactic', unit='deg')
-    diffuse_gc = diffuse_allsky.cutout(position=position, width=(21, 11))
+    diffuse_gc = diffuse_allsky.cutout(position=position, width=(25, 15))
 
-    filename = 'gll_iem_v06_gc.fits.gz.gz'
+    filename = 'gll_iem_v06_gc.fits.gz'
     log.info('Writing {}'.format(filename))
     diffuse_gc.write(filename, conv='fgst-template', overwrite=True)
 
 
 def make_images():
-    counts_cube =  Map.read("fermi-3fhl-gc-counts-cube.fits.gz")
+    counts_cube = Map.read("fermi-3fhl-gc-counts-cube.fits.gz")
     counts = counts_cube.sum_over_axes()
     counts.write("fermi-3fhl-gc-counts.fits.gz", overwrite=True)
 
     background_cube = Map.read("fermi-3fhl-gc-background-cube.fits.gz")
     background = background_cube.sum_over_axes()
     background.write("fermi-3fhl-gc-background.fits.gz", overwrite=True)
-
 
     exposure_cube = Map.read("fermi-3fhl-gc-exposure-cube.fits.gz")
 
@@ -51,7 +52,6 @@ def make_images():
     exposure = exposure_cube.sum_over_axes()
     exposure.write("fermi-3fhl-gc-exposure.fits.gz", overwrite=True)
 
-
     # load psf
     table_psf = EnergyDependentTablePSF.read("fermi-3fhl-gc-psf-cube.fits.gz")
 
@@ -62,15 +62,22 @@ def make_images():
     kernel = PSFKernel.from_table_psf(table_psf=table_psf_mean, geom=exposure.geom, max_radius=0.5 * u.deg)
     kernel.write("fermi-3fhl-gc-psf.fits.gz", overwrite=True)
 
-    # events
+
+def make_events():
+    counts = Map.read("fermi-3fhl-gc-counts.fits.gz")
     events = EventList.read("../allsky/fermi_3fhl_events_selected.fits.gz")
-    
     selection = counts.geom.contains(events.radec)
     table = events.table[selection]
 
-    table.write("fermi-3fhl-gc-events.fits.gz", overwrite=True)
+    table_gti = Table.read("../allsky/fermi_3fhl_events_selected.fits.gz", hdu="GTI")
 
+    hdu_list = fits.HDUList()
+    hdu_list.append(fits.BinTableHDU(table))
+    hdu_list.append(fits.BinTableHDU(table_gti))
+    hdu_list.writeto("fermi-3fhl-gc-events.fits.gz", overwrite=True)
 
 
 if __name__ == "__main__":
-    make_images()
+    make_gll_cutout()
+    # make_images()
+    # make_events()
