@@ -5,4 +5,4 @@ datasets:
   models:
   - Crab Nebula
   background: background
-  filename: /Users/qremy/Work/GitHub/gammapy-fermi-lat-data/3FHL/crab/Fermi-LAT-3FHL_data_Fermi-LAT.fits
+  filename: $GAMMAPY_DATA/fermi-3fhl-crab/Fermi-LAT-3FHL_data_Fermi-LAT.fits
