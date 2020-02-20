@@ -45,6 +45,7 @@ components:
       max: .nan
       frozen: false
 - name: background
+  datasets_names: ["Fermi-LAT"]
   type: BackgroundModel
   parameters:
   - name: norm
