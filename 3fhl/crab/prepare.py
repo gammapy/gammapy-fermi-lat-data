@@ -18,7 +18,7 @@ from regions import RectangleSkyRegion
 
 FGL4 = SourceCatalog4FGL()
 crab = FGL4["Crab Nebula"]  #
-model_crab = crab.sky_model()
+model_crab = crab.sky_model(name="Crab Nebula")
 
 crab_pos = crab.position.galactic
 # freeze position
